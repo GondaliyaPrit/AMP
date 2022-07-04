@@ -7,12 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".Screens.SplashScreen">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="AMP"
+    <ImageView
+        android:layout_width="@dimen/_100sdp"
+        android:src="@drawable/logo"
         android:textColor="@color/black"
         android:textSize="@dimen/_50ssp"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content"/>
+        android:layout_height="@dimen/_100sdp"/>
 
 </RelativeLayout>

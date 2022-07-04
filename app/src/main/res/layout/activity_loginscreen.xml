@@ -40,7 +40,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/logoimg"
-                    android:layout_marginTop="103px"
                     android:text="Sign In"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_22sdp"
@@ -54,6 +53,7 @@
                     android:layout_marginTop="@dimen/_30sdp"
                     android:text="E-mail"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="@dimen/_15sdp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -91,6 +91,7 @@
                     android:layout_below="@id/emaillayout"
                     android:text="Password"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="@dimen/_15sdp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -129,7 +130,8 @@
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:background="@color/appcolor">
+                    android:backgroundTint="@color/appcolor"
+                    android:background="@drawable/corner_round">
 
                     <TextView
                         android:id="@+id/btnsignin"
@@ -142,7 +144,7 @@
                         android:paddingTop="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_10sdp"
                         android:text="Sign in"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_15sdp" />
                 </RelativeLayout>
 
