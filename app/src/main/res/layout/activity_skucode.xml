@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Screens.SKUCodeActivity">
+
+    <RelativeLayout
+        android:id="@+id/searchlayout"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/skulayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint=" "
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:helperTextEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtskunumber"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_border"
+                android:hint="Enter SKU Code"
+                android:inputType="text"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textCursorDrawable="@drawable/cursor" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/skulayout"
+            android:layout_height="@dimen/_24sdp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/tabtittle"
+        android:background="@color/Extralight"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_below="@id/searchlayout"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:text="SIZE || PRO"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="QTY"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="Process"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12ssp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_below="@id/tabtittle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
