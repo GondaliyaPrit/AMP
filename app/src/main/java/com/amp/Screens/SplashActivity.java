@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.amp.R;
 import com.amp.databinding.ActivitySplashScreenBinding;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashScreenBinding binding ;
 
@@ -21,7 +20,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this,loginscreen.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

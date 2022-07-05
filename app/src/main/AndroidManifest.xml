@@ -21,7 +21,7 @@
         android:theme="@style/Theme.AMP"
         tools:targetApi="31">
         <activity
-            android:name=".Screens.SplashScreen"
+            android:name=".Screens.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,10 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Screens.loginscreen" />
+        <activity android:name=".Screens.LoginActivity" />
         <activity android:name=".Screens.HomeActivity" />
         <activity android:name=".Screens.ScanActivity" />
         <activity android:name=".Screens.SKUCodeActivity" />
+        <activity android:name=".Screens.AddFabricActivity" />
     </application>
 
 </manifest>

@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.amp.R;
 import com.amp.databinding.ActivityLoginscreenBinding;
 
-public class loginscreen extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     ActivityLoginscreenBinding binding ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +21,7 @@ public class loginscreen extends AppCompatActivity {
         binding.btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    startActivity(new Intent(loginscreen.this,HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                     finish();
             }
         });

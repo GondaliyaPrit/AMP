@@ -72,6 +72,33 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/fabriclayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_below="@id/entercodelayout"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:backgroundTint="@color/appcolor"
+            android:background="@drawable/corner_round">
+
+            <TextView
+                android:id="@+id/txtfabric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Add Fabric"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
 

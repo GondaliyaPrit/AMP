@@ -2,6 +2,7 @@ package com.amp.Screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.amp.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding ;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +20,12 @@ public class HomeActivity extends AppCompatActivity {
         binding =ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
+        context = HomeActivity.this;
 
         binding.btnscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ScanActivity.class));
+                startActivity(new Intent(context,ScanActivity.class));
             }
         });
 
@@ -32,7 +33,14 @@ public class HomeActivity extends AppCompatActivity {
         binding.enterview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,SKUCodeActivity.class));
+                startActivity(new Intent(context,SKUCodeActivity.class));
+            }
+        });
+
+        binding.txtfabric.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context,AddFabricActivity.class));
             }
         });
     }
