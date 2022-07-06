@@ -114,25 +114,32 @@
             android:textSize="@dimen/_14sdp" />
 
         <RelativeLayout
+            android:id="@+id/rlimages"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content">
-
-
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvimages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp" />
             <ImageView
+                android:id="@+id/imgleftmove"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_alignParentLeft="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_arrow_left" />
             <ImageView
+                android:id="@+id/imgrightmove"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:scaleType="fitXY"

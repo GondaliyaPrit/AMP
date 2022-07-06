@@ -2,13 +2,23 @@ package com.amp.Screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.amp.R;
 import com.amp.databinding.ActivityHomeBinding;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding binding ;
@@ -19,9 +29,21 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding =ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         context = HomeActivity.this;
+        Dexter.withContext(context)
+                .withPermissions(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                        Log.e("Permission",""+multiplePermissionsReport.areAllPermissionsGranted());
+                    }
 
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                })
+                .check();
         binding.btnscan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -46,6 +46,8 @@ dependencies {
 
     //scan
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+    //permission
+    implementation 'com.karumi:dexter:6.2.3'
 
 
 

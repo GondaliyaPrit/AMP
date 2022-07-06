@@ -1,6 +1,7 @@
 package com.amp.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amp.R;
 
+import java.util.ArrayList;
+
 public class FabricImagesAdapter extends RecyclerView.Adapter<FabricImagesAdapter.ImageClass> {
     Context context;
-    int[] images;
+    ArrayList<Uri> images;
 
-    public FabricImagesAdapter(Context context, int[] images) {
+    public FabricImagesAdapter(Context context, ArrayList<Uri> images) {
         this.context = context;
         this.images = images;
     }
@@ -30,13 +33,13 @@ public class FabricImagesAdapter extends RecyclerView.Adapter<FabricImagesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ImageClass holder, int position) {
-        holder.imgfadle.setImageResource(images[position]);
+        holder.imgfadle.setImageURI(images.get(position));
     }
 
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return images.size();
     }
 
     public class ImageClass extends RecyclerView.ViewHolder {
