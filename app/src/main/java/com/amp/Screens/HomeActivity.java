@@ -1,6 +1,7 @@
 package com.amp.Screens;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.Manifest;
 import android.content.Context;
@@ -27,6 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         binding =ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = HomeActivity.this;
