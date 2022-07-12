@@ -13,36 +13,18 @@
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/drawable/onselectbg.xml" value="0.22" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout-land/activity_main.xml" value="0.31040564373897706" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_add_fabric.xml" value="0.3619791666666667" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_loginscreen.xml" value="0.36666666666666664" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_main.xml" value="0.24546722454672246" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_scan.xml" value="0.35260416666666666" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_skucode.xml" value="0.25" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_splash_screen.xml" value="0.33" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/activity_add_fabric.xml" value="0.33" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/activity_home.xml" value="0.18385416666666668" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/activity_infabric.xml" value="0.3609375" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/activity_skucode.xml" value="0.18385416666666668" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/infabric_items.xml" value="0.33" />
-        <entry key="..\:/Sanket/WorkHome/AMP/app/src/main/res/layout/skulayout.xml" value="0.18385416666666668" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/bg_spinner.xml" value="0.1495" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/bg_white_border.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/corner_round.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/cursorcolor.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_arrow_left.xml" value="0.1655" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_arrow_right.xml" value="0.1655" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.1" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_launcher_background.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/drawable/ic_mail.xml" value="0.121" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/activity_add_fabric.xml" value="0.25" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/activity_home.xml" value="0.23425925925925925" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/images_items.xml" value="0.24895833333333334" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/skulayout.xml" value="0.25" />
-        <entry key="..\:/WorkGit/AMP/app/src/main/res/layout/spinner_item.xml" value="0.25" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/skulayout.xml" value="0.33" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
