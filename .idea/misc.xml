@@ -13,14 +13,18 @@
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/drawable/onselectbg.xml" value="0.22" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout-land/activity_main.xml" value="0.31040564373897706" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
-        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_add_fabric.xml" value="0.3619791666666667" />
-        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_home.xml" value="0.1" />
-        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_loginscreen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_add_fabric.xml" value="0.25" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_infabric.xml" value="0.3619791666666667" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_loginscreen.xml" value="0.22" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_main.xml" value="0.24546722454672246" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_scan.xml" value="0.35260416666666666" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_skucode.xml" value="0.25" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/activity_splash_screen.xml" value="0.33" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/images_items.xml" value="0.3619791666666667" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/infabric_items.xml" value="0.3619791666666667" />
         <entry key="..\:/Prit/Android/AMP/app/src/main/res/layout/skulayout.xml" value="0.33" />
+        <entry key="..\:/Prit/Android/AMP/app/src/main/res/xml/network_security_config.xml" value="0.19010416666666666" />
       </map>
     </option>
   </component>

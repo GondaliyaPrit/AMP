@@ -7,40 +7,69 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.amp.Data;
 import com.amp.R;
+import com.amp.Utils;
 import com.amp.adapters.FabricImagesAdapter;
 import com.amp.databinding.ActivityAddFabricBinding;
+import com.amp.interface_api.ApiClient;
+import com.amp.models.Colorlist;
+import com.amp.models.Vendorlist;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddFabricActivity extends AppCompatActivity {
 
     ActivityAddFabricBinding binding;
-    String[] items = new String[]{"one", "two", "three"};
+    ArrayList<Colorlist>  colorlists ;
+    ArrayList<Vendorlist>  vendorlistArrayList ;
     Context context;
     int[] images = new int[]{R.drawable.demo,R.drawable.demo,R.drawable.demo};
     String imagePath;
     Uri fileUri;
     ArrayList<Uri> imageslist;
+    ArrayList<String> colornamelist,vendornamelist,base64list;
     LinearLayoutManager linearlayoutmanager;
     FabricImagesAdapter fabricImagesAdapter;
     int position = 1;
+    String data  ;
+    int colorid ;
+    String colorname ;
+    int vendorid , febvendorid,febcolorid;
+    String vendortype , vendorname ;
+    String febcolorname  , fabquanity   , takebaleseno ;
+    int billno ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +83,186 @@ public class AddFabricActivity extends AppCompatActivity {
 
     private void setdata() {
         imageslist = new ArrayList<>();
+        colorlists = new ArrayList<>();
+        colornamelist = new ArrayList<>();
+        vendorlistArrayList = new ArrayList<>();
+        vendornamelist = new ArrayList<>();
+        base64list = new ArrayList<>();
+        data = SplashActivity.sharedPreferences.getString("data","");
+        Log.e("ADDFebricScreen ", "setdata: -------------->"+data);
         context = this;
+        Getcolorlist();
+        GetVendorlist();
         linearlayoutmanager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL,false);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item, items);
-        binding.spinner1.setAdapter(adapter);
-        binding.spinner2.setAdapter(adapter);
+        Log.e("Colors name ",""+colorname);
     }
+
+    private void Getcolorlist() {
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Data.showdialog(context, "Loading..");
+            Call<ResponseBody> call = ApiClient.API.FebColor("Bearer "+data);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String Colorresponse =response.body().string();
+                        Log.e("AddFabricActivity", "onResponse:----------------> "+Colorresponse);
+                        JSONObject jsonObject = new JSONObject(Colorresponse);
+                        boolean flag  = jsonObject.getBoolean("flag");
+                        String  message  = jsonObject.getString("message");
+                        if(flag)
+                        {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i =0 ; i<data.length();i++)
+                            {
+                                JSONObject dataobject = data.getJSONObject(i);
+                                 colorid = dataobject.getInt("Id");
+                                 colorname = dataobject.getString("ColorName");
+                                colorlists.add(new Colorlist(colorid,colorname));
+                            }
+
+                            for(int i = 0 ;i< colorlists.size();i++){
+                                colornamelist.add(colorlists.get(i).getColorname());
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item, colornamelist);
+                            binding.spinner1.setAdapter(adapter);
+
+
+                        }
+                        else{
+                            Toast.makeText(AddFabricActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                            Log.e("AddFabricActivity", "message:----------------> "+message);
+                        }
+                        
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Data.dissmissdialog();
+                    Log.e("TAG", "error: "+t.getMessage());
+                }
+            });
+        }
+        else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
+    }
+    private void GetVendorlist() {
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Call<ResponseBody> call = ApiClient.API.Vendorlist("Bearer "+data);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String Vendorresponse =response.body().string();
+                        Log.e("Vendorlist", "onResponse:----------------> "+Vendorresponse);
+                        JSONObject jsonObject = new JSONObject(Vendorresponse);
+                        boolean flag  = jsonObject.getBoolean("flag");
+                        String  message  = jsonObject.getString("message");
+                        if(flag)
+                        {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i =0 ; i<data.length();i++)
+                            {
+                                JSONObject dataobject = data.getJSONObject(i);
+                                vendorid = dataobject.getInt("Id");
+                                vendorname = dataobject.getString("Name");
+                                vendortype = dataobject.getString("VenderType");
+                                vendorlistArrayList.add(new Vendorlist(vendorid,vendorname,vendortype));
+                            }
+
+                            for(int i = 0 ;i< vendorlistArrayList.size();i++){
+                                vendornamelist.add(vendorlistArrayList.get(i).getVendorname());
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item, vendornamelist);
+                            binding.spinner2.setAdapter(adapter);
+
+
+                        }
+                        else{
+                            Toast.makeText(AddFabricActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                            Log.e("AddFabricActivity", "message:----------------> "+message);
+                        }
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Data.dissmissdialog();
+                    Log.e("TAG", "error: "+t.getMessage());
+                }
+            });
+        }
+        else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
+    }
+
+    private  void Addfabricdata()
+    {
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Log.e("array",""+base64list.size());
+            Call<ResponseBody> call = ApiClient.API.Addfebricdata("Bearer "+data,febvendorid,febcolorid,base64list,fabquanity,billno,takebaleseno,1);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String Addfabricdataresponce = response.body().string();
+                        Log.e("Addfabricdataresponce", "Addfabricdataresponce: ----------------------------> "+Addfabricdataresponce );
+                        JSONObject jsonObject  = new JSONObject(Addfabricdataresponce);
+                        boolean flag = jsonObject.getBoolean("flag");
+                        String msg = jsonObject.getString("message");
+                        if (flag)
+                        {
+                            Toast.makeText(AddFabricActivity.this, ""+msg, Toast.LENGTH_SHORT).show();
+                        }else
+                        {
+                            Toast.makeText(AddFabricActivity.this, "Somthing Wrong ! Try Again", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Data.dissmissdialog();
+                    Log.e("TAG", "error: "+t.getMessage());
+                }
+            });
+        }
+        else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+    }
+
 
     private void initclicklistener() {
         binding.btnclickphoto.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +274,14 @@ public class AddFabricActivity extends AppCompatActivity {
                 }else {
                     Toast.makeText(context, "Maximum 3 Image Upload Here", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+
+        binding.backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               onBackPressed();
             }
         });
 
@@ -113,10 +323,46 @@ public class AddFabricActivity extends AppCompatActivity {
             }
         });
 
+        binding.spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                febvendorid = vendorlistArrayList.get(position).getVendorid();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        binding.spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                febcolorid = colorlists.get(position).getColorid() ;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         binding.btnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(context,InfabricActivity.class));
+//                Addfabricdata();
+                fabquanity =  binding.edquntity.getText().toString() ;
+                billno =  Integer.parseInt(binding.edbillno.getText().toString());
+                takebaleseno =  binding.edbalesno.getText().toString() ;
+
+                Log.e("data",""+fabquanity+" "+billno+" "+takebaleseno);
+//+
+                if (fabquanity != null && billno >=0 && takebaleseno != null )
+                {
+                    Addfabricdata();
+                    startActivity(new Intent(context,InfabricActivity.class));
+                }
+
             }
         });
     }
@@ -140,6 +386,30 @@ public class AddFabricActivity extends AppCompatActivity {
         binding.rvimages.setLayoutManager(linearlayoutmanager);
         fabricImagesAdapter = new FabricImagesAdapter(context,imageslist);
         binding.rvimages.setAdapter(fabricImagesAdapter);
+        InputStream iStream = null;
+        try {
+            iStream = getContentResolver().openInputStream(uri);
+            byte[] inputData = getBytes(iStream);
+            String encodedString = Base64.encodeToString(inputData, Base64.DEFAULT);
+            base64list.add(encodedString);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
     private void FromCamera(Intent data) {
@@ -147,10 +417,8 @@ public class AddFabricActivity extends AppCompatActivity {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
-
         FileOutputStream fo;
         try {
             destination.createNewFile();
@@ -162,6 +430,9 @@ public class AddFabricActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        byte[] byteArray = bytes.toByteArray();
+        String encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        base64list.add(encodedString);
         imagePath = destination.getPath();
         fileUri = getImageUri(this, thumbnail);
         imageslist.add(fileUri);

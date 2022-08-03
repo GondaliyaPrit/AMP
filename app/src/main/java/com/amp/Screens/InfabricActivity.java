@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.amp.R;
 import com.amp.adapters.FabricListAdapter;
@@ -37,5 +38,12 @@ public class InfabricActivity extends AppCompatActivity {
     }
 
     private void initclicklistener() {
+
+        binding.backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 
 import com.amp.R;
@@ -32,6 +33,11 @@ public class SKUCodeActivity extends AppCompatActivity {
         binding.recyclerview.setAdapter(skuAdapter);
 
 
-        
+        binding.backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

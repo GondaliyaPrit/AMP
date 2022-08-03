@@ -39,7 +39,6 @@ public class HomeActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                         Log.e("Permission",""+multiplePermissionsReport.areAllPermissionsGranted());
                     }
-
                     @Override
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
                         permissionToken.continuePermissionRequest();
@@ -52,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(context,ScanActivity.class));
             }
         });
-
 
         binding.enterview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,4 +66,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
