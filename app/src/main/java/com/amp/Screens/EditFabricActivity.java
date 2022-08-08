@@ -17,14 +17,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amp.Data;
 import com.amp.Utils;
 import com.amp.adapters.FabricImagesAdapter;
-import com.amp.databinding.ActivityAddFabricBinding;
+import com.amp.databinding.ActivityEditFabricBinding;
 import com.amp.interface_api.ApiClient;
 import com.amp.models.Colorlist;
 import com.amp.models.Vendorlist;
@@ -46,9 +45,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddFabricActivity extends AppCompatActivity {
+public class EditFabricActivity extends AppCompatActivity {
 
-    ActivityAddFabricBinding binding;
+    ActivityEditFabricBinding binding;
     ArrayList<Colorlist> colorlists;
     ArrayList<Vendorlist> vendorlistArrayList;
     Context context;
@@ -58,20 +57,21 @@ public class AddFabricActivity extends AppCompatActivity {
     ArrayList<String> colornamelist, vendornamelist, base64list;
     LinearLayoutManager linearlayoutmanager;
     FabricImagesAdapter fabricImagesAdapter;
-    int vendorid = 0, febvendorid = 0, febcolorid = 0, billno = 0, position = 1, colorid;
-
+    int vendorid = 0, febvendorid = 0, febcolorid = 0, billno = 0, position = 1, colorid, fabid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        binding = ActivityAddFabricBinding.inflate(getLayoutInflater());
+        binding = ActivityEditFabricBinding.inflate(getLayoutInflater());
         setdata();
         initclicklistener();
         setContentView(binding.getRoot());
     }
 
     private void setdata() {
+        context = this;
+        fabid= getIntent().getIntExtra("fabid",0);
+        Toast.makeText(context, ""+fabid, Toast.LENGTH_SHORT).show();
         imageslist = new ArrayList<>();
         colorlists = new ArrayList<>();
         colornamelist = new ArrayList<>();
@@ -84,171 +84,10 @@ public class AddFabricActivity extends AppCompatActivity {
         Getcolorlist();
         GetVendorlist();
         linearlayoutmanager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
-        Log.e("Colors name ", "" + colorname);
     }
-
-    private void Getcolorlist() {
-        if (Utils.getInstance().isNetworkConnected(this)) {
-            Data.showdialog(context, "Loading..");
-            Call<ResponseBody> call = ApiClient.API.FebColor("Bearer " + data);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
-                    try {
-                        String Colorresponse = response.body().string();
-                        Log.e("AddFabricActivity", "onResponse:----------------> " + Colorresponse);
-                        JSONObject jsonObject = new JSONObject(Colorresponse);
-                        boolean flag = jsonObject.getBoolean("flag");
-                        String message = jsonObject.getString("message");
-                        if (flag) {
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject dataobject = data.getJSONObject(i);
-                                colorid = dataobject.getInt("Id");
-                                colorname = dataobject.getString("ColorName");
-                                colorlists.add(new Colorlist(colorid, colorname));
-                            }
-
-                            for (int i = 0; i < colorlists.size(); i++) {
-                                colornamelist.add(colorlists.get(i).getColorname());
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, colornamelist);
-                            binding.spinner1.setAdapter(adapter);
-
-
-                        } else {
-                            Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                            Log.e("AddFabricActivity", "message:----------------> " + message);
-                        }
-
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Data.dissmissdialog();
-                    Log.e("TAG", "error: " + t.getMessage());
-                }
-            });
-        } else {
-            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
-    }
-
-    private void GetVendorlist() {
-        if (Utils.getInstance().isNetworkConnected(this)) {
-            Call<ResponseBody> call = ApiClient.API.Vendorlist("Bearer " + data);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
-                    try {
-                        String Vendorresponse = response.body().string();
-                        Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
-                        JSONObject jsonObject = new JSONObject(Vendorresponse);
-                        boolean flag = jsonObject.getBoolean("flag");
-                        String message = jsonObject.getString("message");
-                        if (flag) {
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject dataobject = data.getJSONObject(i);
-                                vendorid = dataobject.getInt("Id");
-                                vendorname = dataobject.getString("Name");
-                                vendortype = dataobject.getString("VenderType");
-                                vendorlistArrayList.add(new Vendorlist(vendorid, vendorname, vendortype));
-                            }
-
-                            for (int i = 0; i < vendorlistArrayList.size(); i++) {
-                                vendornamelist.add(vendorlistArrayList.get(i).getVendorname());
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, vendornamelist);
-                            binding.spinner2.setAdapter(adapter);
-
-
-                        } else {
-                            Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                            Log.e("AddFabricActivity", "message:----------------> " + message);
-                        }
-
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Data.dissmissdialog();
-                    Log.e("TAG", "error: " + t.getMessage());
-                }
-            });
-        } else {
-            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
-    }
-
-    private void Addfabricdata() {
-        if (Utils.getInstance().isNetworkConnected(this)) {
-            Log.e("array", "" + base64list.size());
-            Call<ResponseBody> call = ApiClient.API.Addfebricdata("Bearer " + data, febvendorid, febcolorid, base64list, fabquanity, billno, takebaleseno, 1);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
-                    try {
-                        String Addfabricdataresponce = response.body().string();
-                        Log.e("Addfabricdataresponce", "Addfabricdataresponce: ----------------------------> " + Addfabricdataresponce);
-                        JSONObject jsonObject = new JSONObject(Addfabricdataresponce);
-                        boolean flag = jsonObject.getBoolean("flag");
-                        String msg = jsonObject.getString("message");
-                        if (flag) {
-                            Toast.makeText(AddFabricActivity.this, "" + msg, Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(context, InfabricActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(AddFabricActivity.this, "Somthing Wrong ! Try Again", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Data.dissmissdialog();
-                    Log.e("TAG", "error: " + t.getMessage());
-                }
-            });
-        } else {
-            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-        }
-    }
-
 
     private void initclicklistener() {
+
         binding.btnclickphoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -340,7 +179,6 @@ public class AddFabricActivity extends AppCompatActivity {
                 Log.e("data", "fabquanity = " + fabquanity + " billno = " + billno + "takebaleseno =  " + takebaleseno + "base64list size " + base64list.size());
                 if (fabquanity != null && bn != null && takebaleseno != null && febcolorid > 0 && febvendorid > 0 && base64list.size() > 0 && takebaleseno.contains("-")) {
                     billno = Integer.parseInt(bn);
-                    Addfabricdata();
                 } else if (fabquanity.isEmpty() || bn.isEmpty() || takebaleseno.isEmpty() || febcolorid < 0 || febvendorid < 0 || base64list.size() <= 0) {
                     Utils.erroraleart(context, "All fields are required !", "ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -439,5 +277,121 @@ public class AddFabricActivity extends AppCompatActivity {
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    private void Getcolorlist() {
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Data.showdialog(context, "Loading..");
+            Call<ResponseBody> call = ApiClient.API.FebColor("Bearer " + data);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String Colorresponse = response.body().string();
+                        Log.e("AddFabricActivity", "onResponse:----------------> " + Colorresponse);
+                        JSONObject jsonObject = new JSONObject(Colorresponse);
+                        boolean flag = jsonObject.getBoolean("flag");
+                        String message = jsonObject.getString("message");
+                        if (flag) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject dataobject = data.getJSONObject(i);
+                                colorid = dataobject.getInt("Id");
+                                colorname = dataobject.getString("ColorName");
+                                colorlists.add(new Colorlist(colorid, colorname));
+                            }
+
+                            for (int i = 0; i < colorlists.size(); i++) {
+                                colornamelist.add(colorlists.get(i).getColorname());
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, colornamelist);
+                            binding.spinner1.setAdapter(adapter);
+
+
+                        } else {
+                            Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+                            Log.e("AddFabricActivity", "message:----------------> " + message);
+                        }
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Data.dissmissdialog();
+                    Log.e("TAG", "error: " + t.getMessage());
+                }
+            });
+        } else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
+    }
+
+    private void GetVendorlist() {
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Call<ResponseBody> call = ApiClient.API.Vendorlist("Bearer " + data);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String Vendorresponse = response.body().string();
+                        Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
+                        JSONObject jsonObject = new JSONObject(Vendorresponse);
+                        boolean flag = jsonObject.getBoolean("flag");
+                        String message = jsonObject.getString("message");
+                        if (flag) {
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject dataobject = data.getJSONObject(i);
+                                vendorid = dataobject.getInt("Id");
+                                vendorname = dataobject.getString("Name");
+                                vendortype = dataobject.getString("VenderType");
+                                vendorlistArrayList.add(new Vendorlist(vendorid, vendorname, vendortype));
+                            }
+
+                            for (int i = 0; i < vendorlistArrayList.size(); i++) {
+                                vendornamelist.add(vendorlistArrayList.get(i).getVendorname());
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, vendornamelist);
+                            binding.spinner2.setAdapter(adapter);
+
+
+                        } else {
+                            Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+                            Log.e("AddFabricActivity", "message:----------------> " + message);
+                        }
+
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Data.dissmissdialog();
+                    Log.e("TAG", "error: " + t.getMessage());
+                }
+            });
+        } else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+
     }
 }

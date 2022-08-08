@@ -65,6 +65,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(context,AddFabricActivity.class));
             }
         });
+
+
+        binding.Febtext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,InfabricActivity.class));
+            }
+        });
     }
 
 

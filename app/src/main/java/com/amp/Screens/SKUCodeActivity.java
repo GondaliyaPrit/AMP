@@ -40,4 +40,5 @@ public class SKUCodeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

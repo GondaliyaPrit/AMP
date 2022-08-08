@@ -10,7 +10,9 @@ public class Data {
     {
         PROGRESS_DIALOG = new ProgressDialog(context);
         PROGRESS_DIALOG.show();
-        PROGRESS_DIALOG.setMessage(message);
+        if (message != null) {
+            PROGRESS_DIALOG.setMessage(message);
+        }
     }
     public static void dissmissdialog() {
         PROGRESS_DIALOG.dismiss();

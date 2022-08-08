@@ -42,4 +42,14 @@ public interface Api {
                                      @Field("TakaBalesNo") String TakaBalesNo,
                                      @Field("Status") int Status );
 
+    @GET("api/Fabric/AllFabricList")
+    Call<ResponseBody> AllFabricList(@Header("Authorization") String tokon);
+
+
+    @FormUrlEncoded
+    @POST("api/Fabric/DeleteFabric")
+    Call<ResponseBody> Delfeb(@Header("Authorization") String tokon ,
+                              @Field("InFabricID") int InFabricID);
+
 }
+
