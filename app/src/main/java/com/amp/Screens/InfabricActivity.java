@@ -39,6 +39,7 @@ public class InfabricActivity extends AppCompatActivity {
     FabricListAdapter fabricListAdapter;
     Context context;
     String data  ;
+
     int InFabricID ,VenderID , Color ,BillNo,Status ;
     String imagePath , Quantity ,TakaBalesNo, VenderName, VenderType ,ColorName ;
     LinearLayoutManager linearLayoutManager;
@@ -92,26 +93,35 @@ public class InfabricActivity extends AppCompatActivity {
                         if(flag)
                         {
                             JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i =0 ; i<data.length();i++)
-                            {
-                                JSONObject dataobject = data.getJSONObject(i);
-                                InFabricID = dataobject.getInt("InFabricID");
-                                VenderID = dataobject.getInt("VenderID");
-                                Color = dataobject.getInt("Color");
-                                BillNo = dataobject.getInt("BillNo");
-                                imagePath = dataobject.getString("imagePath");
-                                Quantity = dataobject.getString("Quantity");
-                                TakaBalesNo = dataobject.getString("TakaBalesNo");
-                                Status = dataobject.getInt("Status");
-                                VenderName = dataobject.getString("VenderName");
-                                VenderType = dataobject.getString("VenderType");
-                                ColorName = dataobject.getString("ColorName");
-                                febdatalist.add(new Febdata(InFabricID,VenderID,Color,BillNo,Status,imagePath,Quantity,TakaBalesNo,VenderName,VenderType,ColorName));
 
-                                fabricListAdapter = new FabricListAdapter(context,febdatalist, fabricListAdapter);
-                                linearLayoutManager = new LinearLayoutManager(context , RecyclerView.VERTICAL,false);
-                                binding.rvlist.setLayoutManager(linearLayoutManager);
-                                binding.rvlist.setAdapter(fabricListAdapter);
+                            if(data.length()>0) {
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject dataobject = data.getJSONObject(i);
+                                    InFabricID = dataobject.getInt("InFabricID");
+                                    VenderID = dataobject.getInt("VenderID");
+                                    Color = dataobject.getInt("Color");
+                                    BillNo = dataobject.getInt("BillNo");
+                                    imagePath = dataobject.getString("imagePath");
+                                    Quantity = dataobject.getString("Quantity");
+                                    TakaBalesNo = dataobject.getString("TakaBalesNo");
+                                    Status = dataobject.getInt("Status");
+                                    VenderName = dataobject.getString("VenderName");
+                                    VenderType = dataobject.getString("VenderType");
+                                    ColorName = dataobject.getString("ColorName");
+                                    febdatalist.add(new Febdata(InFabricID, VenderID, Color, BillNo, Status, imagePath, Quantity, TakaBalesNo, VenderName, VenderType, ColorName));
+
+                                    fabricListAdapter = new FabricListAdapter(context, febdatalist, fabricListAdapter);
+                                    linearLayoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
+                                    binding.rvlist.setLayoutManager(linearLayoutManager);
+                                    binding.rvlist.setAdapter(fabricListAdapter);
+                                }
+                            }
+                            else
+                            {
+                                binding.rvlist.setVisibility(View.GONE);
+                                binding.imgnolist.setVisibility(View.VISIBLE);
+                                binding.txt.setVisibility(View.VISIBLE);
+
                             }
 
                         }

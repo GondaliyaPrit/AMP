@@ -65,6 +65,7 @@
         <ImageView
             android:layout_marginLeft="@dimen/_8sdp"
             android:layout_width="@dimen/_24sdp"
+            android:id="@+id/serchbtn"
             android:src="@drawable/ic_baseline_search_24"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/skulayout"
@@ -72,6 +73,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/tabtittle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,12 +119,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_below="@id/tabtittle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabtittle"
+        android:layout_marginTop="@dimen/_5sdp" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/totalll"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
@@ -146,7 +149,8 @@
             android:textColor="@color/black"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:text="280"
+            android:text="0"
+            android:id="@+id/totalsum"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="@dimen/_12ssp"
@@ -156,20 +160,22 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:text="456"
+            android:text="0"
             android:textStyle="bold"
             android:textSize="@dimen/_12ssp"
             android:layout_height="match_parent"/>
     </LinearLayout>
 
     <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/submitbtn"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="wrap_content"
         android:layout_below="@id/totalll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_weight="1"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/corner_round"
         android:backgroundTint="@color/appcolor">
 

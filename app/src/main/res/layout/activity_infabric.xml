@@ -42,4 +42,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp" />
 
+
+    <ImageView
+        android:id="@+id/imgnolist"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:src="@drawable/nolist"
+        android:layout_centerInParent="true"
+        android:layout_height="@dimen/_100sdp"/>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/txt"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/imgnolist"
+        android:layout_width="wrap_content"
+        android:text="Infabric List is Empty !"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13ssp"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

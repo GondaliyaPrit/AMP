@@ -11,16 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amp.R;
+import com.amp.models.Skulist;
+
+import java.util.ArrayList;
 
 public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
     Context skuCodeActivity;
-    String[]  Size ;
-    String[]  Qty ;
-    public SKUAdapter(SKUCodeActivity skuCodeActivity, String[] size, String[] qty) {
-        this.skuCodeActivity =skuCodeActivity ;
-        this.Size =size ;
-        this.Qty =qty ;
+    ArrayList<Skulist> skulistArrayList;
 
+
+    public SKUAdapter(SKUCodeActivity skuCodeActivity, ArrayList<Skulist> skulistArrayList) {
+
+        this.skuCodeActivity = skuCodeActivity;
+        this.skulistArrayList = skulistArrayList;
     }
 
     @NonNull
@@ -33,23 +36,22 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
 
     @Override
     public void onBindViewHolder(@NonNull myclass holder, int position) {
-        if (position %2 ==0)
-        {
+        if (position % 2 == 0) {
             holder.bgmain.setBackgroundColor(skuCodeActivity.getResources().getColor(R.color.colorlight));
         }
-        holder.size.setText(Size[position]);
-        holder.qty.setText(Qty[position]);
+        holder.size.setText(skulistArrayList.get(position).getSizeName());
+        holder.qty.setText(""+skulistArrayList.get(position).getQty());
     }
 
     @Override
     public int getItemCount() {
-        return Size.length;
+        return skulistArrayList.size();
     }
 
     public class myclass extends RecyclerView.ViewHolder {
         TextView size;
         TextView qty;
-        LinearLayout bgmain ;
+        LinearLayout bgmain;
 
         public myclass(@NonNull View itemView) {
             super(itemView);

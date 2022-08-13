@@ -51,5 +51,11 @@ public interface Api {
     Call<ResponseBody> Delfeb(@Header("Authorization") String tokon ,
                               @Field("InFabricID") int InFabricID);
 
+
+    @FormUrlEncoded
+    @POST("api/SKUCutting/GetSKUCuttingProcessDetailV2")
+    Call<ResponseBody> Getskudata(@Header("Authorization") String tokon ,
+                              @Field("SKUCuttingID") int SKUCuttingID);
+
 }
 

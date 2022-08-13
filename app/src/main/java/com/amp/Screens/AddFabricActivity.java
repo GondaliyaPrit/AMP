@@ -84,7 +84,6 @@ public class AddFabricActivity extends AppCompatActivity {
         Getcolorlist();
         GetVendorlist();
         linearlayoutmanager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
-        Log.e("Colors name ", "" + colorname);
     }
 
     private void Getcolorlist() {
@@ -96,35 +95,43 @@ public class AddFabricActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Data.dissmissdialog();
                     try {
-                        String Colorresponse = response.body().string();
-                        Log.e("AddFabricActivity", "onResponse:----------------> " + Colorresponse);
-                        JSONObject jsonObject = new JSONObject(Colorresponse);
-                        boolean flag = jsonObject.getBoolean("flag");
-                        String message = jsonObject.getString("message");
-                        if (flag) {
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject dataobject = data.getJSONObject(i);
-                                colorid = dataobject.getInt("Id");
-                                colorname = dataobject.getString("ColorName");
-                                colorlists.add(new Colorlist(colorid, colorname));
+                        Log.e("AddFabricActivity", "onResponsecode:----------------> " + response.message());
+                        if(!response.message().equals("Unauthorized")) {
+                            String Colorresponse = response.body().string();
+                            Log.e("AddFabricActivity", "onResponse:----------------> " + Colorresponse);
+                            Log.e("AddFabricActivity", "onResponsecode:----------------> " + response.code());
+                            JSONObject jsonObject = new JSONObject(Colorresponse);
+                            boolean flag = jsonObject.getBoolean("flag");
+                            String message = jsonObject.getString("message");
+                            if (flag) {
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject dataobject = data.getJSONObject(i);
+                                    colorid = dataobject.getInt("Id");
+                                    colorname = dataobject.getString("ColorName");
+                                    colorlists.add(new Colorlist(colorid, colorname));
+                                }
+
+                                for (int i = 0; i < colorlists.size(); i++) {
+                                    colornamelist.add(colorlists.get(i).getColorname());
+                                }
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, colornamelist);
+                                binding.spinner1.setAdapter(adapter);
+
+
+                            } else {
+                                Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                                Log.e("AddFabricActivity", "message:----------------> " + message);
                             }
-
-                            for (int i = 0; i < colorlists.size(); i++) {
-                                colornamelist.add(colorlists.get(i).getColorname());
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, colornamelist);
-                            binding.spinner1.setAdapter(adapter);
-
-
-                        } else {
-                            Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                            Log.e("AddFabricActivity", "message:----------------> " + message);
+                        }else {
+                            Toast.makeText(AddFabricActivity.this, "Login Again", Toast.LENGTH_SHORT).show();
                         }
+
 
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
+                        Log.e("AddFabricActivity", "addfabricerror:----------------> " + e.getMessage());
                     }
                 }
 
@@ -153,33 +160,39 @@ public class AddFabricActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Data.dissmissdialog();
                     try {
-                        String Vendorresponse = response.body().string();
-                        Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
-                        JSONObject jsonObject = new JSONObject(Vendorresponse);
-                        boolean flag = jsonObject.getBoolean("flag");
-                        String message = jsonObject.getString("message");
-                        if (flag) {
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject dataobject = data.getJSONObject(i);
-                                vendorid = dataobject.getInt("Id");
-                                vendorname = dataobject.getString("Name");
-                                vendortype = dataobject.getString("VenderType");
-                                vendorlistArrayList.add(new Vendorlist(vendorid, vendorname, vendortype));
+                        Log.e("AddFabricActivity", "onResponsemessage:----------------> " + response.message());
+                        if(!response.message().equals("Unauthorized")){
+                            String Vendorresponse = response.body().string();
+                            Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
+                            JSONObject jsonObject = new JSONObject(Vendorresponse);
+                            boolean flag = jsonObject.getBoolean("flag");
+                            String message = jsonObject.getString("message");
+                            if (flag) {
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject dataobject = data.getJSONObject(i);
+                                    vendorid = dataobject.getInt("Id");
+                                    vendorname = dataobject.getString("Name");
+                                    vendortype = dataobject.getString("VenderType");
+                                    vendorlistArrayList.add(new Vendorlist(vendorid, vendorname, vendortype));
+                                }
+
+                                for (int i = 0; i < vendorlistArrayList.size(); i++) {
+                                    vendornamelist.add(vendorlistArrayList.get(i).getVendorname());
+                                }
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, vendornamelist);
+                                binding.spinner2.setAdapter(adapter);
+
+
+                            } else {
+                                Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                                Log.e("AddFabricActivity", "message:----------------> " + message);
                             }
-
-                            for (int i = 0; i < vendorlistArrayList.size(); i++) {
-                                vendornamelist.add(vendorlistArrayList.get(i).getVendorname());
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, vendornamelist);
-                            binding.spinner2.setAdapter(adapter);
-
-
-                        } else {
-                            Toast.makeText(AddFabricActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                            Log.e("AddFabricActivity", "message:----------------> " + message);
+                        }else {
+                            Toast.makeText(AddFabricActivity.this, "Login Again", Toast.LENGTH_SHORT).show();
                         }
+
 
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
