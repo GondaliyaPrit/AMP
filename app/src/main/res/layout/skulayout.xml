@@ -1,49 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/bgmain"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="@dimen/_10sdp"
-    android:paddingBottom="@dimen/_5sdp"
-    android:paddingRight="@dimen/_10sdp"
-    android:layout_marginRight="@dimen/_10sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/_10sdp"
+    android:layout_marginRight="@dimen/_10sdp"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/_10sdp"
     android:paddingTop="@dimen/_5sdp"
-    android:orientation="horizontal"
-    android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/size"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:textColor="@color/black"
-        android:text="SIZE || PRO"
-        android:textStyle="bold"
-        android:textSize="@dimen/_12ssp"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/qty"
-        android:textColor="@color/black"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:text="QTY"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="@dimen/_12ssp"
-        android:layout_height="match_parent"/>
-    <EditText
-        android:padding="@dimen/_5sdp"
-        android:background="@drawable/bg_white_border"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:inputType="number"
+    android:paddingRight="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_5sdp">
 
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:textSize="@dimen/_12ssp"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/size"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="SIZE || PRO"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/qty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="QTY"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/qtyedt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_white_border"
+            android:gravity="center"
+            android:inputType="number"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/totalll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerview"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/bg_white_border"
+        android:orientation="horizontal"
+        android:padding="@dimen/_10sdp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Total"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/totalsum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/submitbtnlayout"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/submitbtn"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/totalll"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:background="@drawable/corner_round"
+            android:backgroundTint="@color/appcolor">
+
+            <TextView
+                android:id="@+id/btnclickphoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
 
 </LinearLayout>

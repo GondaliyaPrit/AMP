@@ -129,11 +129,9 @@ public class SKUCodeActivity extends AppCompatActivity {
                                     ProcessID =  dataobject.getInt("SizeID");
                                     Qtys =  dataobject.getInt("Qty");
                                     sum += Qtys ;
-                                    binding.totalsum.setText(""+sum);
-                                    binding.totalll.setVisibility(View.VISIBLE);
                                     binding.tabtittle.setVisibility(View.VISIBLE);
-                                    binding.submitbtn.setVisibility(View.VISIBLE);
-                                    skulistArrayList.add(new Skulist(SKUID,SKUCuttingID,SizeID,SizeName,ProcessID,Qtys));
+                               //     binding.submitbtn.setVisibility(View.VISIBLE);
+                                    skulistArrayList.add(new Skulist(SKUID,SKUCuttingID,SizeID,SizeName,ProcessID,Qtys,sum));
                                     linearLayoutManager = new LinearLayoutManager(SKUCodeActivity.this,RecyclerView.VERTICAL,false);
                                     binding.recyclerview.setLayoutManager(linearLayoutManager);
                                     SKUAdapter skuAdapter = new SKUAdapter(SKUCodeActivity.this,skulistArrayList);

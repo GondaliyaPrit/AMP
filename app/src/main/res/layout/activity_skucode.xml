@@ -125,45 +125,48 @@
         android:layout_marginTop="@dimen/_5sdp" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/totalll"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:padding="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_below="@id/recyclerview"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerview"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:background="@drawable/bg_white_border"
         android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:padding="@dimen/_10sdp"
+        android:visibility="gone">
+
         <TextView
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="Total"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12ssp"
-            android:layout_height="match_parent"/>
-        <TextView
             android:textColor="@color/black"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:text="0"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/totalsum"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/_12ssp"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="0"
-            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            android:layout_height="match_parent"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <RelativeLayout

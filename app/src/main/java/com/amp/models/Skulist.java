@@ -7,14 +7,17 @@ public class Skulist {
     String SizeName ;
     int ProcessID  ;
     int Qty ;
+    int sum ;
 
-    public Skulist(int SKUID, int SKUCuttingID, int sizeID, String sizeName, int processID, int qty) {
+
+    public Skulist(int SKUID, int SKUCuttingID, int sizeID, String sizeName, int processID, int qty,int sum) {
         this.SKUID = SKUID;
         this.SKUCuttingID = SKUCuttingID;
         SizeID = sizeID;
         SizeName = sizeName;
         ProcessID = processID;
         Qty = qty;
+      this.sum =sum  ;
     }
 
     public int getSKUID() {
@@ -63,5 +66,13 @@ public class Skulist {
 
     public void setQty(int qty) {
         Qty = qty;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
     }
 }
