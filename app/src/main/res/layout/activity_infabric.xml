@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Screens.InfabricActivity">
 
@@ -33,14 +34,27 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvlist"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/topbar"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:paddingLeft="@dimen/_5sdp"-->
+<!--        android:paddingRight="@dimen/_5sdp" />-->
+
+    <com.mikelau.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rvlist"
-        android:paddingLeft="@dimen/_5sdp"
-        android:paddingRight="@dimen/_5sdp"
-        android:layout_below="@id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp" />
+        android:layout_below="@id/topbar"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        app:shimmer_demo_angle="20"
+        app:shimmer_demo_layout="@layout/layout_sample_view"
+        app:shimmer_demo_layout_manager_type="linear_vertical" />
+
 
 
     <ImageView

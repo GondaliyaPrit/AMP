@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_border"
                 android:hint="Enter SKu Code"
-                android:inputType="text"
+                android:inputType="number"
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_8sdp"
                 android:textColor="@color/black"
@@ -117,12 +117,23 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/tabtittle"-->
+<!--        android:layout_marginTop="@dimen/_5sdp" />-->
+    <com.mikelau.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recyclerview"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tabtittle"
-        android:layout_marginTop="@dimen/_5sdp" />
+        android:layout_marginTop="@dimen/_5sdp"
+        app:shimmer_demo_angle="20"
+        app:shimmer_demo_layout="@layout/layout_sample_view"
+        app:shimmer_demo_layout_manager_type="linear_vertical" />
+
 
     <LinearLayout
         android:id="@+id/totalll"

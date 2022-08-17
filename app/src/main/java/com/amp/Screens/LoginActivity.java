@@ -76,25 +76,32 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Data.dissmissdialog();
                     try {
-                        String loginresponse = response.body().string();
-                        Log.e("TAG", "loginres: "+loginresponse);
-                        JSONObject loginjson = new JSONObject(loginresponse);
-                        boolean flag  = loginjson.getBoolean("flag");
-                        Log.e("Flag",""+flag);
-                        message =loginjson.getString("message");
-                        if (flag)
-                        {
-                            data =loginjson.getString("data");
-                            SplashActivity.editor.putString("name",email);
-                            SplashActivity.editor.putString("data",data);
-                            SplashActivity.editor.commit();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
+                        if(!response.message().equals("Unauthorized")) {
+                            String loginresponse = response.body().string();
+                            Log.e("TAG", "loginres: " + loginresponse);
+                            JSONObject loginjson = new JSONObject(loginresponse);
+                            boolean flag = loginjson.getBoolean("flag");
+                            Log.e("Flag", "" + flag);
+                            message = loginjson.getString("message");
+                            if (flag) {
+                                data = loginjson.getString("data");
+                                SplashActivity.editor.putString("name", email);
+                                SplashActivity.editor.putString("data", data);
+                                SplashActivity.editor.commit();
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                            }
                         }else
                         {
-                            Toast.makeText(LoginActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Session expire..", Toast.LENGTH_SHORT).show();
+                            SplashActivity.editor.clear();
+                            SplashActivity.editor.commit();
+                            startActivity(new Intent(LoginActivity.this,LoginActivity.class));
                         }
+
                     } catch (IOException | JSONException e) {
                         e.printStackTrace();
                         Log.e("Error",e.getMessage());

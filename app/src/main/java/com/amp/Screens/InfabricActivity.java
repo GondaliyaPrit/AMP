@@ -20,7 +20,7 @@ import com.amp.adapters.FabricListAdapter;
 import com.amp.databinding.ActivityInfabricBinding;
 import com.amp.interface_api.ApiClient;
 import com.amp.models.Febdata;
-import com.amp.models.Vendorlist;
+import com.mikelau.views.shimmer.ShimmerRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +39,6 @@ public class InfabricActivity extends AppCompatActivity {
     FabricListAdapter fabricListAdapter;
     Context context;
     String data  ;
-
     int InFabricID ,VenderID , Color ,BillNo,Status ;
     String imagePath , Quantity ,TakaBalesNo, VenderName, VenderType ,ColorName ;
     LinearLayoutManager linearLayoutManager;
@@ -61,6 +60,7 @@ public class InfabricActivity extends AppCompatActivity {
                 "");
         Log.e("ADDFebricScreen ", "setdata: -------------->"+data);
         febdatalist = new ArrayList<>();
+
         GetFebList();
 
     }
@@ -77,13 +77,11 @@ public class InfabricActivity extends AppCompatActivity {
 
 
     private void GetFebList() {
-        Data.showdialog(context,null);
         if (Utils.getInstance().isNetworkConnected(this)) {
             Call<ResponseBody> call = ApiClient.API.AllFabricList("Bearer "+data);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
                     try {
                         String Vendorresponse =response.body().string();
                         Log.e("Vendorlist", "onResponse:----------------> "+Vendorresponse);
@@ -93,7 +91,6 @@ public class InfabricActivity extends AppCompatActivity {
                         if(flag)
                         {
                             JSONArray data = jsonObject.getJSONArray("data");
-
                             if(data.length()>0) {
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject dataobject = data.getJSONObject(i);
@@ -112,6 +109,7 @@ public class InfabricActivity extends AppCompatActivity {
 
                                     fabricListAdapter = new FabricListAdapter(context, febdatalist, fabricListAdapter);
                                     linearLayoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
+                                    binding.rvlist.showShimmerAdapter();
                                     binding.rvlist.setLayoutManager(linearLayoutManager);
                                     binding.rvlist.setAdapter(fabricListAdapter);
                                 }

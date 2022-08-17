@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -102,52 +103,56 @@ public class SKUCodeActivity extends AppCompatActivity {
 
     public void Getskudata(int skucode, Context context)
     {
-        Data.showdialog(context,null);
         if (Utils.getInstance().isNetworkConnected(this)) {
             Call<ResponseBody> call = ApiClient.API.Getskudata("Bearer "+data ,skucode);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
+                    binding.recyclerview.setVisibility(View.VISIBLE);
                     try {
-                        String Vendorresponse =response.body().string();
-                        Log.e("Vendorlist", "onResponse:----------------> "+Vendorresponse);
-                        JSONObject jsonObject = new JSONObject(Vendorresponse);
-                        boolean flag  = jsonObject.getBoolean("flag");
-                        String  message  = jsonObject.getString("message");
-                        if(flag)
-                        {
-                            JSONArray data = jsonObject.getJSONArray("data");
+                        if(!response.message().equals("Unauthorized")) {
+                            String Vendorresponse = response.body().string();
+                            Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
+                            JSONObject jsonObject = new JSONObject(Vendorresponse);
+                            boolean flag = jsonObject.getBoolean("flag");
+                            String message = jsonObject.getString("message");
+                            if (flag) {
+                                JSONArray data = jsonObject.getJSONArray("data");
 
-                            if(data.length()>0) {
-                                for (int i = 0; i < data.length(); i++) {
-                                    JSONObject dataobject = data.getJSONObject(i);
-                                    SKUID =  dataobject.getInt("SKUID");
-                                    SKUCuttingID =  dataobject.getInt("SKUCuttingID");
-                                    SizeID =  dataobject.getInt("SizeID");
-                                    SizeName =  dataobject.getString("SizeName");
-                                    ProcessID =  dataobject.getInt("SizeID");
-                                    Qtys =  dataobject.getInt("Qty");
-                                    sum += Qtys ;
-                                    binding.tabtittle.setVisibility(View.VISIBLE);
-                               //     binding.submitbtn.setVisibility(View.VISIBLE);
-                                    skulistArrayList.add(new Skulist(SKUID,SKUCuttingID,SizeID,SizeName,ProcessID,Qtys,sum));
-                                    linearLayoutManager = new LinearLayoutManager(SKUCodeActivity.this,RecyclerView.VERTICAL,false);
-                                    binding.recyclerview.setLayoutManager(linearLayoutManager);
-                                    SKUAdapter skuAdapter = new SKUAdapter(SKUCodeActivity.this,skulistArrayList);
-                                    binding.recyclerview.setAdapter(skuAdapter);
+                                if (data.length() > 0) {
+                                    for (int i = 0; i < data.length(); i++) {
+                                        JSONObject dataobject = data.getJSONObject(i);
+                                        SKUID = dataobject.getInt("SKUID");
+                                        SKUCuttingID = dataobject.getInt("SKUCuttingID");
+                                        SizeID = dataobject.getInt("SizeID");
+                                        SizeName = dataobject.getString("SizeName");
+                                        ProcessID = dataobject.getInt("SizeID");
+                                        Qtys = dataobject.getInt("Qty");
+                                        sum += Qtys;
+                                        binding.tabtittle.setVisibility(View.VISIBLE);
+                                        //     binding.submitbtn.setVisibility(View.VISIBLE);
+                                        skulistArrayList.add(new Skulist(SKUID, SKUCuttingID, SizeID, SizeName, ProcessID, Qtys, sum));
+                                        linearLayoutManager = new LinearLayoutManager(SKUCodeActivity.this, RecyclerView.VERTICAL, false);
+                                        binding.recyclerview.showShimmerAdapter();
+                                        binding.recyclerview.setLayoutManager(linearLayoutManager);
+                                        SKUAdapter skuAdapter = new SKUAdapter(SKUCodeActivity.this, skulistArrayList);
+                                        binding.recyclerview.setAdapter(skuAdapter);
+                                    }
+                                } else {
+
+
                                 }
+
+                            } else {
+                                Toast.makeText(SKUCodeActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                                Log.e("AddFabricActivity", "message:----------------> " + message);
                             }
-                            else
-                            {
-
-
-                            }
-
-                        }
-                        else{
-                            Toast.makeText(SKUCodeActivity.this, ""+message, Toast.LENGTH_SHORT).show();
-                            Log.e("AddFabricActivity", "message:----------------> "+message);
+                        }else
+                        {
+                            Toast.makeText(SKUCodeActivity.this, "Session expire..", Toast.LENGTH_SHORT).show();
+                            SplashActivity.editor.clear();
+                            SplashActivity.editor.commit();
+                            startActivity(new Intent(SKUCodeActivity.this,LoginActivity.class));
                         }
 
                     } catch (IOException | JSONException e) {

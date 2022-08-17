@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,6 +60,7 @@ public class AddFabricActivity extends AppCompatActivity {
     LinearLayoutManager linearlayoutmanager;
     FabricImagesAdapter fabricImagesAdapter;
     int vendorid = 0, febvendorid = 0, febcolorid = 0, billno = 0, position = 1, colorid;
+    public static String pathimage;
 
 
     @Override
@@ -190,7 +192,10 @@ public class AddFabricActivity extends AppCompatActivity {
                                 Log.e("AddFabricActivity", "message:----------------> " + message);
                             }
                         }else {
-                            Toast.makeText(AddFabricActivity.this, "Login Again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddFabricActivity.this, "Session expire..", Toast.LENGTH_SHORT).show();
+                            SplashActivity.editor.clear();
+                            SplashActivity.editor.commit();
+                            startActivity(new Intent(AddFabricActivity.this,LoginActivity.class));
                         }
 
 
@@ -437,8 +442,12 @@ public class AddFabricActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         byte[] byteArray = bytes.toByteArray();
-        String encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        String encodedString = Base64.encodeToString(byteArray, Base64.URL_SAFE);
+        System.out.print(encodedString);
+        pathimage = encodedString;
+        Log.e("encodedString", ""+encodedString );
         base64list.add(encodedString);
+
         imagePath = destination.getPath();
         fileUri = getImageUri(this, thumbnail);
         imageslist.add(fileUri);
