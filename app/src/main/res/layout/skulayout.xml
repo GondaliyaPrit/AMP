@@ -90,6 +90,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/txttotalqty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -119,8 +120,8 @@
             android:backgroundTint="@color/appcolor">
 
             <TextView
-                android:id="@+id/btnclickphoto"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnsubmit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:background="?selectableItemBackgroundBorderless"
