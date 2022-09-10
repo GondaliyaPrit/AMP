@@ -80,6 +80,7 @@ public class SKUCodeActivity extends AppCompatActivity {
         binding.submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("map",""+apimap);
                 int index = 0;
                 JSONArray jsonArray = new JSONArray();
                 for (Map.Entry<Integer, Integer> entry : apimap.entrySet()) {
@@ -143,7 +144,6 @@ public class SKUCodeActivity extends AppCompatActivity {
                                                     qtysum+= mapdata.getValue();
                                                 }
                                                 binding.qtysum.setText(""+qtysum);
-                                                apimap.clear();
                                                 apimap=map;
                                             }
                                         });
