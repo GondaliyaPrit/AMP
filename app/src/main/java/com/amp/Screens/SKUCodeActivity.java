@@ -17,6 +17,7 @@ import com.amp.Data;
 import com.amp.Utils;
 import com.amp.databinding.ActivitySkucodeBinding;
 import com.amp.interface_api.ApiClient;
+import com.amp.interface_api.EditData;
 import com.amp.models.Skulist;
 
 import org.json.JSONArray;
@@ -25,6 +26,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -43,7 +46,8 @@ public class SKUCodeActivity extends AppCompatActivity {
     String SizeName;
     int ProcessID;
     int Qtys;
-    int sum = 0;
+    int sum = 0,qtysum= 0;
+    HashMap<Integer, Integer> apimap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,26 @@ public class SKUCodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        binding.submitbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = 0;
+                JSONArray jsonArray = new JSONArray();
+                for (Map.Entry<Integer, Integer> entry : apimap.entrySet()) {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("SizeID", skulistArrayList.get(entry.getKey()).getSizeID());
+                        jsonObject.put("Qty", Integer.parseInt(entry.getValue().toString()));
+                        jsonArray.put(jsonObject);
+                        index++;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.e("map",""+jsonArray);
             }
         });
     }
@@ -103,12 +127,26 @@ public class SKUCodeActivity extends AppCompatActivity {
                                         Qtys = dataobject.getInt("Qty");
                                         sum += Qtys;
                                         binding.tabtittle.setVisibility(View.VISIBLE);
-                                        //     binding.submitbtn.setVisibility(View.VISIBLE);
+                                        binding.rlsubmitbtn.setVisibility(View.VISIBLE);
+                                        binding.totalll.setVisibility(View.VISIBLE);
+                                        binding.totalsum.setText(""+sum);
                                         skulistArrayList.add(new Skulist(SKUID, SKUCuttingID, SizeID, SizeName, ProcessID, Qtys, sum));
                                         linearLayoutManager = new LinearLayoutManager(SKUCodeActivity.this, RecyclerView.VERTICAL, false);
                                         binding.recyclerview.showShimmerAdapter();
                                         binding.recyclerview.setLayoutManager(linearLayoutManager);
-                                        SKUAdapter skuAdapter = new SKUAdapter(SKUCodeActivity.this, skulistArrayList);
+
+                                        SKUAdapter skuAdapter = new SKUAdapter(SKUCodeActivity.this, skulistArrayList, new EditData() {
+                                            @Override
+                                            public void Data(HashMap<Integer, Integer> map) {
+                                                qtysum = 0;
+                                                for (Map.Entry<Integer,Integer> mapdata : map.entrySet()){
+                                                    qtysum+= mapdata.getValue();
+                                                }
+                                                binding.qtysum.setText(""+qtysum);
+                                                apimap.clear();
+                                                apimap=map;
+                                            }
+                                        });
                                         binding.recyclerview.setAdapter(skuAdapter);
                                     }
                                 }

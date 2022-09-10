@@ -1,213 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Screens.SKUCodeActivity">
-
-    <LinearLayout android:paddingLeft="@dimen/_8sdp"
-        android:id="@+id/topbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@color/appcolor"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/backbtn"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/_30sdp"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            android:layout_height="@dimen/_30sdp"/>
-        <TextView
-            android:paddingLeft="@dimen/_10sdp"
-            android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:text="Process Quentity"
-            android:textSize="@dimen/_15sdp"
-            android:gravity="center|left"
-            android:textColor="@color/white"
-            android:layout_height="match_parent"/>
-
-    </LinearLayout>
-
     <RelativeLayout
-        android:layout_below="@+id/topbar"
-        android:id="@+id/searchlayout"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/skulayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint=" "
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:helperTextEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtskunumber"
-                android:layout_width="@dimen/_200sdp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_border"
-                android:hint="Enter SKu Code"
-                android:inputType="number"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textCursorDrawable="@drawable/cursor" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <ImageView
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_width="@dimen/_24sdp"
-            android:id="@+id/serchbtn"
-            android:src="@drawable/ic_baseline_search_24"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/skulayout"
-            android:layout_height="@dimen/_24sdp"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/tabtittle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchlayout"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@color/Extralight"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10sdp">
-
-        <TextView
+        android:background="@color/white"
+        android:layout_height="match_parent">
+        <LinearLayout android:paddingLeft="@dimen/_8sdp"
+            android:id="@+id/topbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="SIZE || PRO"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
+            android:layout_height="@dimen/_40sdp"
+            android:background="@color/appcolor"
+            android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Recive"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/backbtn"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/_30sdp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_height="@dimen/_30sdp"/>
+            <TextView
+                android:paddingLeft="@dimen/_10sdp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:text="Process Quentity"
+                android:textSize="@dimen/_15sdp"
+                android:gravity="center|left"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="QTY"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        </LinearLayout>
 
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recyclerview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/tabtittle"-->
-<!--        android:layout_marginTop="@dimen/_5sdp" />-->
-    <com.mikelau.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/recyclerview"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tabtittle"
-        android:layout_marginTop="@dimen/_5sdp"
-        app:shimmer_demo_angle="20"
-        app:shimmer_demo_layout="@layout/layout_sample_view"
-        app:shimmer_demo_layout_manager_type="linear_vertical" />
-
-
-    <LinearLayout
-        android:id="@+id/totalll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerview"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:background="@drawable/bg_white_border"
-        android:orientation="horizontal"
-        android:padding="@dimen/_10sdp"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Total"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/totalsum"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/submitbtn"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/totalll"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_weight="1"
-        android:background="@drawable/corner_round"
-        android:backgroundTint="@color/appcolor">
-
-        <TextView
-            android:id="@+id/btnclickphoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:layout_below="@+id/topbar"
+            android:id="@+id/searchlayout"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_centerHorizontal="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:text="Submit"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp"
-            android:textStyle="bold" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/skulayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint=" "
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:helperTextEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtskunumber"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_white_border"
+                    android:hint="Enter SKu Code"
+                    android:inputType="number"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textCursorDrawable="@drawable/cursor" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_width="@dimen/_24sdp"
+                android:id="@+id/serchbtn"
+                android:src="@drawable/ic_baseline_search_24"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/skulayout"
+                android:layout_height="@dimen/_24sdp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/tabtittle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchlayout"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@color/Extralight"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="SIZE || PRO"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Recive"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="QTY"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <com.mikelau.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/recyclerview"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tabtittle"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:shimmer_demo_angle="20"
+            app:shimmer_demo_layout="@layout/layout_sample_view"
+            app:shimmer_demo_layout_manager_type="linear_vertical" />
+
+
+        <LinearLayout
+            android:id="@+id/totalll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerview"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/bg_white_border"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalsum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/qtysum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlsubmitbtn"
+            android:visibility="gone"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/totalll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@drawable/corner_round"
+            android:backgroundTint="@color/appcolor">
+
+            <TextView
+                android:id="@+id/submitbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Submit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+
+
+</ScrollView>

@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amp.R;
+import com.amp.interface_api.EditData;
 import com.amp.models.Skulist;
 
 import org.json.JSONArray;
@@ -31,10 +33,13 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
     Context skuCodeActivity;
     ArrayList<Skulist> skulistArrayList;
     HashMap<Integer, Integer> summap = new HashMap<>();
+    int sum = 0;
+    EditData editData;
 
-    public SKUAdapter(SKUCodeActivity skuCodeActivity, ArrayList<Skulist> skulistArrayList) {
+    public SKUAdapter(SKUCodeActivity skuCodeActivity, ArrayList<Skulist> skulistArrayList, EditData editData) {
         this.skuCodeActivity = skuCodeActivity;
         this.skulistArrayList = skulistArrayList;
+        this.editData = editData;
     }
 
     @NonNull
@@ -48,7 +53,6 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
     @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull myclass holder, int position) {
-        int[] sumdata = new int[skulistArrayList.size()];
 
         if (position != skulistArrayList.size()) {
             if (position % 2 == 0) {
@@ -56,12 +60,22 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
             }
             holder.size.setText(skulistArrayList.get(position).getSizeName());
             holder.qty.setText("" + skulistArrayList.get(position).getQty());
-            holder.totalsum.setText("" + skulistArrayList.get(position).getSum());
         }
-        if (position == skulistArrayList.size() - 1) {
-            holder.totalll.setVisibility(View.VISIBLE);
-            holder.submitbtnlayout.setVisibility(View.VISIBLE);
-        }
+        holder.qtyedt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (i == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    sum+=Integer.parseInt(holder.qtyedt.getText().toString());
+                    holder.txttotalqty.setText("" + sum);
+                    Toast.makeText(skuCodeActivity, holder.qtyedt.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         holder.qtyedt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -71,13 +85,14 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.e("datadatdat",charSequence.toString());
-                if(!charSequence.toString().isEmpty()){
+                Log.e("datadatdat", charSequence.toString());
+                if (!charSequence.toString().isEmpty()) {
                     summap.put(position, Integer.parseInt(charSequence.toString()));
-                    Log.e("Map data", "" + summap);
-                    holder.txttotalqty.setText("" + summap.get(position));
-
+                    sum += summap.get(position);
+                }else {
+                    summap.put(position, 0);
                 }
+                editData.Data(summap);
             }
 
             @Override
@@ -91,11 +106,11 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
             public void onClick(View view) {
                 int index = 0;
                 JSONArray jsonArray = new JSONArray();
-                for(Map.Entry<Integer, Integer> entry : summap.entrySet()){
+                for (Map.Entry<Integer, Integer> entry : summap.entrySet()) {
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("SizeID",skulistArrayList.get(entry.getKey()).getSizeID());
-                        jsonObject.put("Qty",Integer.parseInt(entry.getValue().toString()));
+                        jsonObject.put("SizeID", skulistArrayList.get(entry.getKey()).getSizeID());
+                        jsonObject.put("Qty", Integer.parseInt(entry.getValue().toString()));
                         jsonArray.put(jsonObject);
                         index++;
                     } catch (JSONException e) {
@@ -132,7 +147,6 @@ public class SKUAdapter extends RecyclerView.Adapter<SKUAdapter.myclass> {
             totalll = itemView.findViewById(R.id.totalll);
             submitbtnlayout = itemView.findViewById(R.id.submitbtnlayout);
             qtyedt = itemView.findViewById(R.id.qtyedt);
-            txttotalqty = itemView.findViewById(R.id.txttotalqty);
             btnsubmit = itemView.findViewById(R.id.btnsubmit);
         }
     }
