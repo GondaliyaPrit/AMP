@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amp.Data;
 import com.amp.Utils;
 import com.amp.databinding.ActivitySkucodeBinding;
+import com.amp.interface_api.Api;
 import com.amp.interface_api.ApiClient;
 import com.amp.interface_api.EditData;
 import com.amp.models.Skulist;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -46,7 +48,7 @@ public class SKUCodeActivity extends AppCompatActivity {
     String SizeName;
     int ProcessID;
     int Qtys;
-    int sum = 0,qtysum= 0;
+    int sum = 0, qtysum = 0;
     HashMap<Integer, Integer> apimap = new HashMap<>();
 
     @Override
@@ -80,7 +82,7 @@ public class SKUCodeActivity extends AppCompatActivity {
         binding.submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("map",""+apimap);
+                Log.e("map", "" + apimap);
                 int index = 0;
                 JSONArray jsonArray = new JSONArray();
                 for (Map.Entry<Integer, Integer> entry : apimap.entrySet()) {
@@ -94,11 +96,54 @@ public class SKUCodeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                Log.e("map",""+jsonArray);
+                UpdateSkuData(jsonArray);
             }
         });
     }
 
+    public void UpdateSkuData(JSONArray jsonArray) {
+        Data.showdialog(context,"Data Updating...");
+        if (Utils.getInstance().isNetworkConnected(this)) {
+            Call<ResponseBody> call = ApiClient.API.UpdateSkuData("Bearer " + data,SKUID,SKUCuttingID,jsonArray);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
+                    try {
+                        String responses = response.body().string();
+                        Log.e("updatedata",responses);
+                        JSONObject jsonObject = new JSONObject(responses);
+                        if(jsonObject.getBoolean("flag")){
+                            Toast.makeText(SKUCodeActivity.this, "Data Submit Succesfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(context,HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Toast.makeText(SKUCodeActivity.this, "Something gone wrong...", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } else {
+            Utils.erroraleart(this, "Check Internet Connection", "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+    }
 
     public void Getskudata(int skucode, Context context) {
         if (Utils.getInstance().isNetworkConnected(this)) {
@@ -116,7 +161,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                             String message = jsonObject.getString("message");
                             if (flag) {
                                 JSONArray data = jsonObject.getJSONArray("data");
-
+                                skulistArrayList.clear();
                                 if (data.length() > 0) {
                                     for (int i = 0; i < data.length(); i++) {
                                         JSONObject dataobject = data.getJSONObject(i);
@@ -130,7 +175,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                                         binding.tabtittle.setVisibility(View.VISIBLE);
                                         binding.rlsubmitbtn.setVisibility(View.VISIBLE);
                                         binding.totalll.setVisibility(View.VISIBLE);
-                                        binding.totalsum.setText(""+sum);
+                                        binding.totalsum.setText("" + sum);
                                         skulistArrayList.add(new Skulist(SKUID, SKUCuttingID, SizeID, SizeName, ProcessID, Qtys, sum));
                                         linearLayoutManager = new LinearLayoutManager(SKUCodeActivity.this, RecyclerView.VERTICAL, false);
                                         binding.recyclerview.showShimmerAdapter();
@@ -140,11 +185,11 @@ public class SKUCodeActivity extends AppCompatActivity {
                                             @Override
                                             public void Data(HashMap<Integer, Integer> map) {
                                                 qtysum = 0;
-                                                for (Map.Entry<Integer,Integer> mapdata : map.entrySet()){
-                                                    qtysum+= mapdata.getValue();
+                                                for (Map.Entry<Integer, Integer> mapdata : map.entrySet()) {
+                                                    qtysum += mapdata.getValue();
                                                 }
-                                                binding.qtysum.setText(""+qtysum);
-                                                apimap=map;
+                                                binding.qtysum.setText("" + qtysum);
+                                                apimap = map;
                                             }
                                         });
                                         binding.recyclerview.setAdapter(skuAdapter);

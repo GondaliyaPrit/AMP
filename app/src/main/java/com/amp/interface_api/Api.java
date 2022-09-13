@@ -3,7 +3,8 @@ package com.amp.interface_api;
 
 import com.amp.Screens.SplashActivity;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -34,13 +35,13 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("api/Fabric/AddUpdateFabric")
-    Call<ResponseBody> Addfebricdata(@Header("Authorization") String tokon,@Field("VenderID") int VenderID,
+    Call<ResponseBody> Addfebricdata(@Header("Authorization") String tokon, @Field("VenderID") int VenderID,
                                      @Field("Color") int Color,
                                      @Field("imagePath[]") List<String> imagePath,
                                      @Field("Quantity") String Quantity,
                                      @Field("BillNo") int BillNo,
                                      @Field("TakaBalesNo") String TakaBalesNo,
-                                     @Field("Status") int Status );
+                                     @Field("Status") int Status);
 
     @GET("api/Fabric/AllFabricList")
     Call<ResponseBody> AllFabricList(@Header("Authorization") String tokon);
@@ -48,14 +49,21 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("api/Fabric/DeleteFabric")
-    Call<ResponseBody> Delfeb(@Header("Authorization") String tokon ,
+    Call<ResponseBody> Delfeb(@Header("Authorization") String tokon,
                               @Field("InFabricID") int InFabricID);
 
 
     @FormUrlEncoded
     @POST("api/SKUCutting/GetSKUCuttingProcessDetailV2")
-    Call<ResponseBody> Getskudata(@Header("Authorization") String tokon ,
-                              @Field("SKUCuttingID") int SKUCuttingID);
+    Call<ResponseBody> Getskudata(@Header("Authorization") String tokon,
+                                  @Field("SKUCuttingID") int SKUCuttingID);
+
+    @FormUrlEncoded
+    @POST("api/SKUCutting/GetSKUCuttingProcessDetailV2")
+    Call<ResponseBody> UpdateSkuData(@Header("Authorization") String tokon,
+                                     @Field("SKUID") int SKUID,
+                                     @Field("SKUCuttingID") int SKUCuttingID,
+                                     @Field("SizeARY[]") JSONArray data);
 
 }
 
