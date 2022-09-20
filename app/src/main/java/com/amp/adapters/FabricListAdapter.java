@@ -67,6 +67,13 @@ public class FabricListAdapter extends RecyclerView.Adapter<FabricListAdapter.Li
         return listClass;
     }
 
+
+
+
+
+
+
+
     @Override
     public void onBindViewHolder(@NonNull ListClass holder, int position) {
         int pos = position;
