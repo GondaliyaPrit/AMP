@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +48,7 @@ public class SKUCodeActivity extends AppCompatActivity {
     int SKUID;
     int SKUCuttingID;
     int SizeID;
-    String SizeName;
+    String SizeName,qrcodedata;
     int ProcessID;
     int Qtys;
     int sum = 0, qtysum = 0;
@@ -59,7 +62,14 @@ public class SKUCodeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         context = SKUCodeActivity.this;
         data = SplashActivity.sharedPreferences.getString("data", "");
-        Log.e("ADDFebricScreen ", "setdata: -------------->" + data);
+
+        Intent intent = getIntent();
+        qrcodedata = intent.getStringExtra("qrcodedata");
+        if(qrcodedata!=null){
+            binding.edtskunumber.setText(qrcodedata);
+            Getskudata(Integer.parseInt(qrcodedata), context);
+        }
+
         skulistArrayList = new ArrayList<>();
         binding.serchbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +107,21 @@ public class SKUCodeActivity extends AppCompatActivity {
                     }
                 }
                 UpdateSkuData(jsonArray);
+            }
+        });
+
+        binding.edtskunumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(!v.getText().toString().isEmpty()){
+                        Getskudata(Integer.parseInt(v.getText().toString()), context);
+                    }else {
+                        Toast.makeText(context, "Please Enter SKU Code", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -146,11 +171,13 @@ public class SKUCodeActivity extends AppCompatActivity {
     }
 
     public void Getskudata(int skucode, Context context) {
+        Data.showdialog(context,"Geting Data...");
         if (Utils.getInstance().isNetworkConnected(this)) {
             Call<ResponseBody> call = ApiClient.API.Getskudata("Bearer " + data, skucode);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Data.dissmissdialog();
                     binding.recyclerview.setVisibility(View.VISIBLE);
                     try {
                         if (!response.message().equals("Unauthorized")) {

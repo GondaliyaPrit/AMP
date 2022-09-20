@@ -60,6 +60,7 @@
                     android:hint="Enter SKu Code"
                     android:inputType="number"
                     android:paddingTop="@dimen/_8sdp"
+                    android:imeOptions="actionSearch"
                     android:paddingBottom="@dimen/_8sdp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"

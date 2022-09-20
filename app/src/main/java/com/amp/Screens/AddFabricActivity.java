@@ -224,6 +224,7 @@ public class AddFabricActivity extends AppCompatActivity {
     private void Addfabricdata() {
         if (Utils.getInstance().isNetworkConnected(this)) {
             Log.e("array", "" + base64list.size());
+            Data.showdialog(context,"Data is Adding...");
             Call<ResponseBody> call = ApiClient.API.Addfebricdata("Bearer " + data, febvendorid, febcolorid, base64list, fabquanity, billno, takebaleseno, 1);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -356,18 +357,11 @@ public class AddFabricActivity extends AppCompatActivity {
                 takebaleseno = binding.edbalesno.getText().toString();
 
                 Log.e("data", "fabquanity = " + fabquanity + " billno = " + billno + "takebaleseno =  " + takebaleseno + "base64list size " + base64list.size());
-                if (fabquanity != null && bn != null && takebaleseno != null && febcolorid > 0 && febvendorid > 0 && base64list.size() > 0 && takebaleseno.contains("-")) {
+                if (fabquanity != null && bn != null && takebaleseno != null && febcolorid > 0 && febvendorid > 0 && base64list.size() > 0) {
                     billno = Integer.parseInt(bn);
                     Addfabricdata();
                 } else if (fabquanity.isEmpty() || bn.isEmpty() || takebaleseno.isEmpty() || febcolorid < 0 || febvendorid < 0 || base64list.size() <= 0) {
                     Utils.erroraleart(context, "All fields are required !", "ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                } else if (!takebaleseno.contains("-")) {
-                    Utils.erroraleart(context, "Comma Must be require in TakaBalesNo", "ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -402,6 +396,7 @@ public class AddFabricActivity extends AppCompatActivity {
             iStream = getContentResolver().openInputStream(uri);
             byte[] inputData = getBytes(iStream);
             String encodedString = Base64.encodeToString(inputData, Base64.DEFAULT);
+            imagePath = encodedString;
             base64list.add(encodedString);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -442,10 +437,10 @@ public class AddFabricActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         byte[] byteArray = bytes.toByteArray();
-        String encodedString = Base64.encodeToString(byteArray, Base64.URL_SAFE);
+        String encodedString = Base64.encodeToString(byteArray, Base64.DEFAULT);
         System.out.print(encodedString);
         pathimage = encodedString;
-        Log.e("encodedString", ""+encodedString );
+        Log.e("encodedString", ""+encodedString);
         base64list.add(encodedString);
 
         imagePath = destination.getPath();

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -29,7 +30,9 @@ public class ScanActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ScanActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ScanActivity.this,SKUCodeActivity.class);
+                        intent.putExtra("qrcodedata",result.getText());
+                        startActivity(intent);
                     }
                 });
             }
