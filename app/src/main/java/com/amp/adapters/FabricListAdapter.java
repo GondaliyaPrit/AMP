@@ -74,12 +74,12 @@ public class FabricListAdapter extends RecyclerView.Adapter<FabricListAdapter.Li
         holder.colorname.setText(febdatalist.get(pos).getColorName());
         holder.Quantitycount.setText(febdatalist.get(pos).getQuantity());
         holder.Txttakebaseno.setText(febdatalist.get(pos).getTakaBalesNo());
-//        String[] imageath = febdatalist.get(pos).getImagePath().split(",");
+       // String imageath = febdatalist.get(pos).getImagePath();
         byte[] decodedString = Base64.decode(febdatalist.get(pos).getImagePath(), Base64.DEFAULT);
         String text = new String(decodedString, StandardCharsets.UTF_8);
         Log.e("demo",text);
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        holder.febimage.setImageBitmap(decodedByte);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        holder.febimage.setImageBitmap(decodedByte);
 
         holder.deletebtn.setOnClickListener(new View.OnClickListener() {
             @Override

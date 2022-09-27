@@ -52,7 +52,9 @@ public class SKUCodeActivity extends AppCompatActivity {
     int ProcessID;
     int Qtys;
     int sum = 0, qtysum = 0;
+    String processname ;
     HashMap<Integer, Integer> apimap = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +180,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Data.dissmissdialog();
-                    binding.recyclerview.setVisibility(View.VISIBLE);
+                    binding.rlnodata.setVisibility(View.GONE);
                     try {
                         if (!response.message().equals("Unauthorized")) {
                             String Vendorresponse = response.body().string();
@@ -190,6 +192,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 skulistArrayList.clear();
                                 if (data.length() > 0) {
+                                    binding.recyclerview.setVisibility(View.VISIBLE);
                                     for (int i = 0; i < data.length(); i++) {
                                         JSONObject dataobject = data.getJSONObject(i);
                                         SKUID = dataobject.getInt("SKUID");
@@ -197,7 +200,10 @@ public class SKUCodeActivity extends AppCompatActivity {
                                         SizeID = dataobject.getInt("SizeID");
                                         SizeName = dataobject.getString("SizeName");
                                         ProcessID = dataobject.getInt("SizeID");
+                                        processname = dataobject.getString("ProcessName");
                                         Qtys = dataobject.getInt("Qty");
+                                        binding.txtprocess.setVisibility(View.VISIBLE);
+                                        binding.txtprocess.setText("Process Name :"+processname);
                                         sum += Qtys;
                                         binding.tabtittle.setVisibility(View.VISIBLE);
                                         binding.rlsubmitbtn.setVisibility(View.VISIBLE);
@@ -224,8 +230,9 @@ public class SKUCodeActivity extends AppCompatActivity {
                                 }
 
                             } else {
+                                binding.rlnodata.setVisibility(View.VISIBLE);
                                 Toast.makeText(SKUCodeActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                                Log.e("AddFabricActivity", "message:----------------> " + message);
+                                Log.e("SKUCODEActivity", "message:----------------> " + message);
                             }
                         } else {
                             Toast.makeText(SKUCodeActivity.this, "Session expire..", Toast.LENGTH_SHORT).show();

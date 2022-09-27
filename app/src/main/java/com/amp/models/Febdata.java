@@ -5,6 +5,7 @@ public class Febdata {
     int InFabricID, VenderID, Color, BillNo, Status;
     String imagePath, Quantity, TakaBalesNo, VenderName, VenderType, ColorName;
 
+
     public Febdata(int inFabricID, int venderID, int color, int billNo, int status, String imagePath, String quantity, String takaBalesNo, String venderName, String venderType, String colorName) {
         this.InFabricID = inFabricID;
         this.VenderID = venderID;

@@ -10,17 +10,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.amp.Data;
-import com.amp.R;
 import com.amp.Utils;
 import com.amp.adapters.FabricListAdapter;
 import com.amp.databinding.ActivityInfabricBinding;
 import com.amp.interface_api.ApiClient;
 import com.amp.models.Febdata;
-import com.mikelau.views.shimmer.ShimmerRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +40,7 @@ public class InfabricActivity extends AppCompatActivity {
     String imagePath , Quantity ,TakaBalesNo, VenderName, VenderType ,ColorName ;
     LinearLayoutManager linearLayoutManager;
     ArrayList<Febdata> febdatalist  ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +96,13 @@ public class InfabricActivity extends AppCompatActivity {
                                     VenderID = dataobject.getInt("VenderID");
                                     Color = dataobject.getInt("Color");
                                     BillNo = dataobject.getInt("BillNo");
-                                    imagePath = dataobject.getString("imagePath");
+                                    JSONArray Imgjsonarray = dataobject.getJSONArray("imagePath");
+                                    for(int j=0;j<Imgjsonarray.length();j++)
+                                    {
+                                        imagePath = Imgjsonarray.getString(0);
+                                        Log.e("TAG", "imagePath-----------------> "+imagePath );
+                                    }
+                                    Log.e("TAG", "Imgjsonarray-----------------------> "+Imgjsonarray.length());
                                     Quantity = dataobject.getString("Quantity");
                                     TakaBalesNo = dataobject.getString("TakaBalesNo");
                                     Status = dataobject.getInt("Status");
