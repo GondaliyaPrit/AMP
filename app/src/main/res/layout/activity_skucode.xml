@@ -89,19 +89,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/searchlayout"
-            android:layout_centerHorizontal="true"
-            android:padding="@dimen/_5sdp">
+            android:visibility="gone"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtprocess"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Process Name :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status Name :"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_15sdp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <RelativeLayout

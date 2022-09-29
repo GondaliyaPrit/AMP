@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amp.Data;
 import com.amp.Utils;
 import com.amp.databinding.ActivitySkucodeBinding;
-import com.amp.interface_api.Api;
 import com.amp.interface_api.ApiClient;
 import com.amp.interface_api.EditData;
 import com.amp.models.Skulist;
@@ -31,7 +30,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -48,11 +46,10 @@ public class SKUCodeActivity extends AppCompatActivity {
     int SKUID;
     int SKUCuttingID;
     int SizeID;
-    String SizeName,qrcodedata;
+    String SizeName, qrcodedata;
     int ProcessID;
     int Qtys;
     int sum = 0, qtysum = 0;
-    String processname ;
     HashMap<Integer, Integer> apimap = new HashMap<>();
 
 
@@ -67,7 +64,7 @@ public class SKUCodeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         qrcodedata = intent.getStringExtra("qrcodedata");
-        if(qrcodedata!=null){
+        if (qrcodedata != null) {
             binding.edtskunumber.setText(qrcodedata);
             Getskudata(Integer.parseInt(qrcodedata), context);
         }
@@ -116,9 +113,9 @@ public class SKUCodeActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if(!v.getText().toString().isEmpty()){
+                    if (!v.getText().toString().isEmpty()) {
                         Getskudata(Integer.parseInt(v.getText().toString()), context);
-                    }else {
+                    } else {
                         Toast.makeText(context, "Please Enter SKU Code", Toast.LENGTH_SHORT).show();
                     }
                     return true;
@@ -129,23 +126,23 @@ public class SKUCodeActivity extends AppCompatActivity {
     }
 
     public void UpdateSkuData(JSONArray jsonArray) {
-        Data.showdialog(context,"Data Updating...");
+        Data.showdialog(context, "Data Updating...");
         if (Utils.getInstance().isNetworkConnected(this)) {
-            Call<ResponseBody> call = ApiClient.API.UpdateSkuData("Bearer " + data,SKUID,SKUCuttingID,jsonArray);
+            Call<ResponseBody> call = ApiClient.API.UpdateSkuData("Bearer " + data, SKUID, SKUCuttingID, jsonArray);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     Data.dissmissdialog();
                     try {
                         String responses = response.body().string();
-                        Log.e("updatedata",responses);
+                        Log.e("updatedata", responses);
                         JSONObject jsonObject = new JSONObject(responses);
-                        if(jsonObject.getBoolean("flag")){
+                        if (jsonObject.getBoolean("flag")) {
                             Toast.makeText(SKUCodeActivity.this, "Data Submit Succesfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(context,HomeActivity.class);
+                            Intent intent = new Intent(context, HomeActivity.class);
                             startActivity(intent);
                             finish();
-                        }else {
+                        } else {
                             Toast.makeText(SKUCodeActivity.this, "Something gone wrong...", Toast.LENGTH_SHORT).show();
                         }
 
@@ -172,17 +169,65 @@ public class SKUCodeActivity extends AppCompatActivity {
         }
     }
 
+    public void GetProccessList(int skucode, Context context) {
+        Call<ResponseBody> call = ApiClient.API.GetProcessList("Bearer " + data, skucode);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Data.dissmissdialog();
+                try {
+                    if (!response.message().equals("Unauthorized")) {
+                        String processlistresponse = response.body().string();
+                        Log.e("Vendorlist", "onResponse:----------------> " + processlistresponse);
+                        JSONObject jsonObject = new JSONObject(processlistresponse);
+                        boolean flag = jsonObject.getBoolean("flag");
+                        String message = jsonObject.getString("message");
+                        if(flag){
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for(int i = 0 ; i < data.length();i++){
+                                JSONObject dataobject = data.getJSONObject(i);
+                                int processid = dataobject.getInt("ProcessID");
+                                Log.e("Checking....","processid = "+processid+"skucode = "+skucode);
+                                if(processid == skucode){
+                                    binding.processlayout.setVisibility(View.VISIBLE);
+                                    binding.txtprocess.setText("Process Name : "+dataobject.getString("ProcessName"));
+                                    break;
+                                }else {
+                                    binding.processlayout.setVisibility(View.GONE);
+                                }
+                                Log.e("processid",""+processid);
+                            }
+                        }
+                    } else {
+                        Toast.makeText(SKUCodeActivity.this, "Session expire..", Toast.LENGTH_SHORT).show();
+                        SplashActivity.editor.clear();
+                        SplashActivity.editor.commit();
+                        startActivity(new Intent(SKUCodeActivity.this, LoginActivity.class));
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     public void Getskudata(int skucode, Context context) {
-        Data.showdialog(context,"Geting Data...");
+        Data.showdialog(context, "Geting Data...");
         if (Utils.getInstance().isNetworkConnected(this)) {
             Call<ResponseBody> call = ApiClient.API.Getskudata("Bearer " + data, skucode);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    Data.dissmissdialog();
                     binding.rlnodata.setVisibility(View.GONE);
                     try {
                         if (!response.message().equals("Unauthorized")) {
+                            GetProccessList(skucode, context);
                             String Vendorresponse = response.body().string();
                             Log.e("Vendorlist", "onResponse:----------------> " + Vendorresponse);
                             JSONObject jsonObject = new JSONObject(Vendorresponse);
@@ -200,10 +245,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                                         SizeID = dataobject.getInt("SizeID");
                                         SizeName = dataobject.getString("SizeName");
                                         ProcessID = dataobject.getInt("SizeID");
-                                        processname = dataobject.getString("ProcessName");
                                         Qtys = dataobject.getInt("Qty");
-                                        binding.txtprocess.setVisibility(View.VISIBLE);
-                                        binding.txtprocess.setText("Process Name :"+processname);
                                         sum += Qtys;
                                         binding.tabtittle.setVisibility(View.VISIBLE);
                                         binding.rlsubmitbtn.setVisibility(View.VISIBLE);
@@ -231,6 +273,11 @@ public class SKUCodeActivity extends AppCompatActivity {
 
                             } else {
                                 binding.rlnodata.setVisibility(View.VISIBLE);
+                                binding.recyclerview.setVisibility(View.GONE);
+                                binding.rlsubmitbtn.setVisibility(View.GONE);
+                                binding.tabtittle.setVisibility(View.GONE);
+                                binding.totalll.setVisibility(View.GONE);
+                                binding.processlayout.setVisibility(View.GONE);
                                 Toast.makeText(SKUCodeActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                                 Log.e("SKUCODEActivity", "message:----------------> " + message);
                             }

@@ -65,5 +65,11 @@ public interface Api {
                                      @Field("SKUCuttingID") int SKUCuttingID,
                                      @Field("SizeARY[]") JSONArray data);
 
+
+    @FormUrlEncoded
+    @POST("api/SKUCutting/GetProcessList")
+    Call<ResponseBody> GetProcessList(@Header("Authorization") String tokon,
+                                     @Field("SKUCuttingID") int SKUCuttingID);
+
 }
 
