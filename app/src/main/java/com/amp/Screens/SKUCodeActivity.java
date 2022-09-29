@@ -182,20 +182,15 @@ public class SKUCodeActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(processlistresponse);
                         boolean flag = jsonObject.getBoolean("flag");
                         String message = jsonObject.getString("message");
-                        if(flag){
+                        if (flag) {
                             JSONArray data = jsonObject.getJSONArray("data");
-                            for(int i = 0 ; i < data.length();i++){
-                                JSONObject dataobject = data.getJSONObject(i);
+                            if(data.length()> 0){
+                                JSONObject dataobject = data.getJSONObject(0);
                                 int processid = dataobject.getInt("ProcessID");
-                                Log.e("Checking....","processid = "+processid+"skucode = "+skucode);
-                                if(processid == skucode){
-                                    binding.processlayout.setVisibility(View.VISIBLE);
-                                    binding.txtprocess.setText("Process Name : "+dataobject.getString("ProcessName"));
-                                    break;
-                                }else {
-                                    binding.processlayout.setVisibility(View.GONE);
-                                }
-                                Log.e("processid",""+processid);
+
+                                binding.processlayout.setVisibility(View.VISIBLE);
+                                binding.txtprocess.setText("Process Name : " + dataobject.getString("ProcessName"));
+                                Log.e("processid", "" + processid);
                             }
                         }
                     } else {

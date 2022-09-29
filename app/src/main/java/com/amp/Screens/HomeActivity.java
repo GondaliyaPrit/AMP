@@ -73,6 +73,13 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(context,InfabricActivity.class));
             }
         });
+
+        binding.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(context,ProfileActivity.class));
+            }
+        });
     }
 
 
