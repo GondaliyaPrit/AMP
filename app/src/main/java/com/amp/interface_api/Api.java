@@ -61,7 +61,7 @@ public interface Api {
                                   @Field("SKUCuttingID") int SKUCuttingID);
 
     @FormUrlEncoded
-    @POST("api/SKUCutting/GetSKUCuttingProcessDetailV2")
+    @POST("api/SKUCutting/UpdateProcessQty")
     Call<ResponseBody> UpdateSkuData(@Header("Authorization") String tokon,
                                      @Field("SKUID") int SKUID,
                                      @Field("SKUCuttingID") int SKUCuttingID,

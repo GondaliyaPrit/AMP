@@ -143,7 +143,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(SKUCodeActivity.this, "Something gone wrong...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SKUCodeActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                         }
 
                     } catch (IOException e) {
