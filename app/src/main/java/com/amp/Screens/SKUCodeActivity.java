@@ -22,6 +22,8 @@ import com.amp.databinding.ActivitySkucodeBinding;
 import com.amp.interface_api.ApiClient;
 import com.amp.interface_api.EditData;
 import com.amp.models.Skulist;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +53,8 @@ public class SKUCodeActivity extends AppCompatActivity {
     int Qtys;
     int sum = 0, qtysum = 0;
     HashMap<Integer, Integer> apimap = new HashMap<>();
+    JsonObject updateqtyjson = new JsonObject();
+    JsonArray Sizeidjsonarray = new JsonArray();
 
 
     @Override
@@ -91,21 +95,23 @@ public class SKUCodeActivity extends AppCompatActivity {
         binding.submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("map", "" + apimap);
+
                 int index = 0;
                 JSONArray jsonArray = new JSONArray();
                 for (Map.Entry<Integer, Integer> entry : apimap.entrySet()) {
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("SizeID", skulistArrayList.get(entry.getKey()).getSizeID());
-                        jsonObject.put("Qty", Integer.parseInt(entry.getValue().toString()));
-                        jsonArray.put(jsonObject);
-                        index++;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("SizeID", skulistArrayList.get(entry.getKey()).getSizeID());
+                    jsonObject.addProperty("Qty", Integer.parseInt(entry.getValue().toString()));
+                    jsonArray.put(jsonObject);
+                    Sizeidjsonarray.add(jsonObject);
+                    index++;
                 }
-                UpdateSkuData(jsonArray);
+                updateqtyjson.addProperty("SKUID",SKUID);
+                updateqtyjson.addProperty("SKUCuttingID",SKUCuttingID);
+                updateqtyjson.add("SizeARY", Sizeidjsonarray);
+
+                Log.e("Upadteqtyjsonreq",""+updateqtyjson);
+                UpdateSkuData(updateqtyjson);
             }
         });
 
@@ -125,16 +131,19 @@ public class SKUCodeActivity extends AppCompatActivity {
         });
     }
 
-    public void UpdateSkuData(JSONArray jsonArray) {
+    public void UpdateSkuData(JsonObject jsonObject) {
+        Log.e("beforejsonarray", "" + jsonObject);
+        Log.e("updateqtyskuid", "" + SKUID);
+        Log.e("updateqtycuttingid", "" + SKUCuttingID);
         Data.showdialog(context, "Data Updating...");
         if (Utils.getInstance().isNetworkConnected(this)) {
-            Call<ResponseBody> call = ApiClient.API.UpdateSkuData("Bearer " + data, SKUID, SKUCuttingID, jsonArray);
-            call.enqueue(new Callback<ResponseBody>() {
+            Call<JsonObject> call = ApiClient.API.UpdateSkuData("Bearer " + data, jsonObject);
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Data.dissmissdialog();
                     try {
-                        String responses = response.body().string();
+                        String responses = response.body().toString();
                         Log.e("updatedata", responses);
                         JSONObject jsonObject = new JSONObject(responses);
                         if (jsonObject.getBoolean("flag")) {
@@ -146,15 +155,13 @@ public class SKUCodeActivity extends AppCompatActivity {
                             Toast.makeText(SKUCodeActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                         }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<JsonObject> call, Throwable t) {
 
                 }
             });
@@ -167,6 +174,7 @@ public class SKUCodeActivity extends AppCompatActivity {
                 }
             });
         }
+        Log.e("afterjsonarray", "" + jsonObject);
     }
 
     public void GetProccessList(int skucode, Context context) {
@@ -182,15 +190,31 @@ public class SKUCodeActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(processlistresponse);
                         boolean flag = jsonObject.getBoolean("flag");
                         String message = jsonObject.getString("message");
+                        int finishcount = 0;
                         if (flag) {
                             JSONArray data = jsonObject.getJSONArray("data");
                             if(data.length()> 0){
-                                JSONObject dataobject = data.getJSONObject(0);
-                                int processid = dataobject.getInt("ProcessID");
-
-                                binding.processlayout.setVisibility(View.VISIBLE);
-                                binding.txtprocess.setText("Process Name : " + dataobject.getString("ProcessName"));
-                                Log.e("processid", "" + processid);
+                                for(int i =0 ;i<data.length();i++){
+                                    JSONObject dataobject = data.getJSONObject(i);
+                                    String processname = dataobject.getString("ProcessName");
+                                    String processstatus = dataobject.getString("ProcessStatus");
+                                    Log.e("processstatus", "" + processstatus);
+                                    if(processstatus.equals("In Process")){
+                                        binding.processlayout.setVisibility(View.VISIBLE);
+                                        binding.txtprocess.setText("Process Name : " + processname);
+                                        break;
+                                    }else if(processstatus.equals("Pending")){
+                                        binding.processlayout.setVisibility(View.VISIBLE);
+                                        binding.txtprocess.setText("Process Name : " + processname);
+                                        break;
+                                    }else {
+                                        finishcount++;
+                                    }
+                                }
+                                if(data.length()==finishcount){
+                                    binding.processlayout.setVisibility(View.VISIBLE);
+                                    binding.txtprocess.setText("All Process are finished");
+                                }
                             }
                         }
                     } else {

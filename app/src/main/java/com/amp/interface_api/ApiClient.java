@@ -1,5 +1,8 @@
 package com.amp.interface_api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.security.cert.CertificateException;
 
 import javax.net.ssl.HostnameVerifier;
@@ -12,13 +15,17 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public interface ApiClient {
-
+    Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://ampapi.triangletech.in/")
             .client(getUnsafeOkHttpClient().build())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
     Api API = retrofit.create(Api.class);
